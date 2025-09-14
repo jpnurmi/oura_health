@@ -40,7 +40,7 @@ class _SleepViewState extends State<SleepView> {
 
   Future<void> _download() async {
     await launchUrl(
-      Uri.https('cloud.ouraring.com', '/account/export/sleep/json'),
+      Uri.https('membership.ouraring.com', '/data-export'),
     );
   }
 
@@ -48,7 +48,7 @@ class _SleepViewState extends State<SleepView> {
     final notifier = context.read<SleepNotifier>();
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['json'],
+      allowedExtensions: ['csv', 'json'],
     );
     final path = result?.files.singleOrNull?.path;
     if (path != null) {
