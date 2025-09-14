@@ -22,7 +22,10 @@ class _HealthAppState extends State<HealthApp> {
         appBar: AppBar(title: const Text('Oura Health')),
         body: IndexedStack(
           index: _selectedIndex,
-          children: [SleepView.create(), const Center(child: Text('TODO'))],
+          children: [
+            SleepView.create(),
+            const Center(child: Text('TODO')),
+          ],
         ),
         bottomNavigationBar: BottomNavigationBar(
           items: [

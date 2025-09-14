@@ -64,8 +64,9 @@ class SleepService {
       final phase = phases[i];
       final phaseStart = sleep.bedtimeStart.add(offset);
       final phase5Min = phaseStart.add(Duration(minutes: phase.length * 5));
-      final phaseEnd =
-          phase5Min.isAfter(sleep.bedtimeEnd) ? sleep.bedtimeEnd : phase5Min;
+      final phaseEnd = phase5Min.isAfter(sleep.bedtimeEnd)
+          ? sleep.bedtimeEnd
+          : phase5Min;
       if (!await _health.writeHealthData(
         value: 0,
         type: phase.toHealthDataType(),

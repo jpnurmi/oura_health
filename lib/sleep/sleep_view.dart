@@ -82,17 +82,15 @@ class _SleepViewState extends State<SleepView> {
                   child: const Text('Download'),
                 ),
                 ElevatedButton(
-                  onPressed:
-                      notifier.progress != null
-                          ? null
-                          : () => _import(full: false),
+                  onPressed: notifier.progress != null
+                      ? null
+                      : () => _import(full: false),
                   child: const Text('Quick Import'),
                 ),
                 ElevatedButton(
-                  onPressed:
-                      notifier.progress != null
-                          ? null
-                          : () => _import(full: true),
+                  onPressed: notifier.progress != null
+                      ? null
+                      : () => _import(full: true),
                   child: const Text('Full Import'),
                 ),
                 ElevatedButton(
