@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:health/health.dart';
 import 'package:meta/meta.dart';
 
@@ -17,20 +19,20 @@ class SleepService {
   Future<bool> requestAuth() {
     return _health.requestAuthorization(
       [
-        HealthDataType.SLEEP_SESSION,
+        if (Platform.isAndroid) HealthDataType.SLEEP_SESSION,
         HealthDataType.SLEEP_DEEP,
         HealthDataType.SLEEP_LIGHT,
         HealthDataType.SLEEP_REM,
         HealthDataType.SLEEP_AWAKE,
-        HealthDataType.SLEEP_UNKNOWN,
+        if (Platform.isAndroid) HealthDataType.SLEEP_UNKNOWN,
       ],
       permissions: [
-        HealthDataAccess.READ_WRITE,
+        if (Platform.isAndroid) HealthDataAccess.READ_WRITE,
         HealthDataAccess.WRITE,
         HealthDataAccess.WRITE,
         HealthDataAccess.WRITE,
         HealthDataAccess.WRITE,
-        HealthDataAccess.WRITE,
+        if (Platform.isAndroid) HealthDataAccess.WRITE,
       ],
     );
   }
@@ -41,20 +43,29 @@ class SleepService {
 
   Future<List<HealthDataPoint>> readData(DateTime start, DateTime end) {
     return _health.getHealthDataFromTypes(
-      types: [HealthDataType.SLEEP_SESSION],
+      types: Platform.isAndroid
+          ? [HealthDataType.SLEEP_SESSION]
+          : [
+              HealthDataType.SLEEP_DEEP,
+              HealthDataType.SLEEP_LIGHT,
+              HealthDataType.SLEEP_REM,
+              HealthDataType.SLEEP_AWAKE,
+            ],
       startTime: start,
       endTime: end,
     );
   }
 
   Future<bool> writeData(Sleep sleep) async {
-    if (!await _health.writeHealthData(
-      value: 0,
-      type: HealthDataType.SLEEP_SESSION,
-      startTime: sleep.bedtimeStart,
-      endTime: sleep.bedtimeEnd,
-    )) {
-      return false;
+    if (Platform.isAndroid) {
+      if (!await _health.writeHealthData(
+        value: 0,
+        type: HealthDataType.SLEEP_SESSION,
+        startTime: sleep.bedtimeStart,
+        endTime: sleep.bedtimeEnd,
+      )) {
+        return false;
+      }
     }
 
     // awake/rem/light/deep

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:android_intent_plus/flag.dart';
 import 'package:file_picker/file_picker.dart';
@@ -28,7 +30,7 @@ class _SleepViewState extends State<SleepView> {
     context.read<SleepNotifier>().init();
   }
 
-  Future<void> _launch() async {
+  Future<void> _launchFit() async {
     final intent = AndroidIntent(
       action: 'android.intent.action.MAIN',
       package: 'com.google.android.apps.fitness',
@@ -93,10 +95,11 @@ class _SleepViewState extends State<SleepView> {
                       : () => _import(full: true),
                   child: const Text('Full Import'),
                 ),
-                ElevatedButton(
-                  onPressed: notifier.progress != null ? null : _launch,
-                  child: const Text('Launch Fit'),
-                ),
+                if (Platform.isAndroid)
+                  ElevatedButton(
+                    onPressed: notifier.progress != null ? null : _launchFit,
+                    child: const Text('Launch Fit'),
+                  ),
               ],
             ),
           ),
