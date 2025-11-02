@@ -54,7 +54,7 @@ class _SleepViewState extends State<SleepView> {
     final notifier = context.read<SleepNotifier>();
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['csv', 'json'],
+      allowedExtensions: ['csv', 'json', 'zip'],
     );
     final path = result?.files.singleOrNull?.path;
     if (path != null) {

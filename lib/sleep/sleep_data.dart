@@ -96,52 +96,39 @@ class Sleep {
   factory Sleep.fromJson(Map<String, dynamic> json) => _$SleepFromJson(json);
   Map<String, dynamic> toJson() => _$SleepToJson(this);
 
-  // TODO: [List<String>? headers]
-  factory Sleep.fromCsv(List<dynamic> fields) {
+  factory Sleep.fromCsv(List<String> header, List<String> fields) {
     return Sleep(
-      // 0: day
-      day: DateTime.parse(fields[0] as String),
-      // 1: type
-      type: _toSleepType(fields[1] as String?),
-      // 2: total_sleep_duration
-      totalSleepDuration: _fromSecondsOrNull(fields[2] as int?),
-      // 3: average_breath
-      // 4: average_heart_rate,
-      // 5: average_hrv,
-      // 6: awake_time,
-      awakeTime: _fromSecondsOrNull(fields[6] as int?),
-      // 7: bedtime_end,
-      bedtimeEnd: DateTime.parse(fields[7] as String),
-      // 8: bedtime_start,
-      bedtimeStart: DateTime.parse(fields[8] as String),
-      // 9: deep_sleep_duration,
-      deepSleepDuration: _fromSecondsOrNull(fields[9] as int?),
-      // 10: efficiency,
-      efficiency: fields[10] as int?,
-      // 11: heart_rate,
-      // 12: hrv,
-      // 13: latency,
-      latency: _fromSecondsOrNull(fields[13] as int?),
-      // 14: light_sleep_duration,
-      lightSleepDuration: _fromSecondsOrNull(fields[14] as int?),
-      // 15: low_battery_alert,
-      // 16: lowest_heart_rate,
-      // 16: movement_30_sec,
-      // 18: period,
-      // 19: readiness,
-      // 20: readiness_score_delta,
-      // 21: rem_sleep_duration,
-      remSleepDuration: _fromSecondsOrNull(fields[21] as int?),
-      // 22: restless_periods,
-      // 23: sleep_algorithm_version,
-      // 24: sleep_analysis_reason,
-      // 25: sleep_phase_5_min,
-      sleepPhase5Min: fields[25] as String?,
-      // 26: sleep_score_delta, // TODO: delta?
-      score: int.tryParse(fields[26].toString()), // fields[26] as int?
-      // 27: time_in_bed,
-      timeInBed: _fromSeconds(fields[27] as int),
-      // 28: id
+      day: DateTime.parse(fields[header.indexOf('day')]),
+      type: _toSleepType(fields[header.indexOf('type')]),
+      totalSleepDuration: _fromSecondsOrNull(
+        int.tryParse(fields[header.indexOf('total_sleep_duration')]),
+      ),
+      awakeTime: _fromSecondsOrNull(
+        int.tryParse(fields[header.indexOf('awake_time')]),
+      ),
+      bedtimeEnd: DateTime.parse(
+        fields[header.indexOf('bedtime_end')],
+      ),
+      bedtimeStart: DateTime.parse(
+        fields[header.indexOf('bedtime_start')],
+      ),
+      deepSleepDuration: _fromSecondsOrNull(
+        int.tryParse(fields[header.indexOf('deep_sleep_duration')]),
+      ),
+      efficiency: int.tryParse(fields[header.indexOf('efficiency')]),
+      latency: _fromSecondsOrNull(
+        int.tryParse(fields[header.indexOf('latency')]),
+      ),
+      lightSleepDuration: _fromSecondsOrNull(
+        int.tryParse(fields[header.indexOf('light_sleep_duration')]),
+      ),
+      remSleepDuration: _fromSecondsOrNull(
+        int.tryParse(fields[header.indexOf('rem_sleep_duration')]),
+      ),
+      sleepPhase5Min: fields[header.indexOf('sleep_phase_5_min')],
+      // TODO: delta? fields[26] as int?
+      score: int.tryParse(fields[header.indexOf('sleep_score_delta')]),
+      timeInBed: _fromSeconds(int.parse(fields[header.indexOf('time_in_bed')])),
     );
   }
 
