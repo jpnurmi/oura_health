@@ -40,6 +40,10 @@ class _SleepViewState extends State<SleepView> {
     return intent.launch();
   }
 
+  Future<void> _launchHealth() async {
+    await launchUrl(Uri.parse('x-apple-health://'));
+  }
+
   Future<void> _download() async {
     await launchUrl(
       Uri.https('membership.ouraring.com', '/data-export'),
@@ -99,6 +103,11 @@ class _SleepViewState extends State<SleepView> {
                   ElevatedButton(
                     onPressed: notifier.progress != null ? null : _launchFit,
                     child: const Text('Launch Fit'),
+                  ),
+                if (Platform.isIOS)
+                  ElevatedButton(
+                    onPressed: notifier.progress != null ? null : _launchHealth,
+                    child: const Text('Launch Health'),
                   ),
               ],
             ),
